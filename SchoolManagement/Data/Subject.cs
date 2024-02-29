@@ -23,8 +23,8 @@ namespace SchoolManagement.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public bool isDeleted { get; set; }
-        public string CreatedBy { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public string AddedBy { get; set; }
+        public System.DateTime AddedDate { get; set; }
         public string ModifiedBy { get; set; }
         public System.DateTime ModifiedDate { get; set; }
     
