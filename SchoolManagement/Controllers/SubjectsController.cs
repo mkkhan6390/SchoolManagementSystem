@@ -46,10 +46,16 @@ namespace SchoolManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,isDeleted,AddedBy,AddedDate,ModifiedBy,ModifiedDate")] Subject subject)
+        public ActionResult Create([Bind(Include = "Name")] Subject subject)
         {
             if (ModelState.IsValid)
             {
+                subject.isDeleted = false;
+                subject.AddedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                subject.AddedDate = DateTime.Now;
+                subject.ModifiedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                subject.ModifiedDate = DateTime.Now;
+
                 db.Subjects.Add(subject);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -78,12 +84,21 @@ namespace SchoolManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,isDeleted,AddedBy,AddedDate,ModifiedBy,ModifiedDate")] Subject subject)
+        public ActionResult Edit([Bind(Include = "Id,Name")] Subject subject)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(subject).State = EntityState.Modified;
+                subject.ModifiedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                subject.ModifiedDate = DateTime.Now;
+
+                db.Subjects.Attach(subject);
+                db.Entry(subject).Property(x => x.Name).IsModified = true;
+                db.Entry(subject).Property(x => x.ModifiedBy).IsModified = true;
+                db.Entry(subject).Property(x => x.ModifiedDate).IsModified = true;
+
+                // Save changes to the database
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(subject);

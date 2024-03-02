@@ -4,12 +4,20 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
 <div>
     <h4>Batch</h4>
     <hr />
     <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Teacher.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Teacher.Name)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Class)
         </dt>
@@ -24,14 +32,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Div)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.isDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isDeleted)
         </dd>
 
         <dt>
@@ -66,13 +66,6 @@
             @Html.DisplayFor(model => model.ModifiedDate)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Teacher.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Teacher.Name)
-        </dd>
 
     </dl>
 </div>

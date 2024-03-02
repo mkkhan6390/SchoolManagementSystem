@@ -4,13 +4,16 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h4>Batch</h4>
+<hr />
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
+        <th>
+            Class Teacher
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Class)
         </th>
@@ -18,58 +21,40 @@
             @Html.DisplayNameFor(model => model.Div)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.isDeleted)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.CreatedBy)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CreatedDate)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ModifiedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ModifiedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Teacher.Name)
-        </th>
+
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Class)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Div)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isDeleted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifiedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifiedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Teacher.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Div)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

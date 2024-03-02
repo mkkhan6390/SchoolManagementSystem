@@ -87,10 +87,10 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TeacherId" Type="int" Nullable="false" />
           <Property Name="SubjectId" Type="int" Nullable="false" />
-          <Property Name="ScheduleDate" Type="int" Nullable="false" />
+          <Property Name="ScheduleDate" Type="date" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
-          <Property Name="Hours" Type="decimal" Precision="2" Scale="2" Nullable="false" />
+          <Property Name="Hours" Type="decimal" Precision="4" Scale="2" />
           <Property Name="isDeleted" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -437,10 +437,10 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TeacherId" Type="Int32" Nullable="false" />
           <Property Name="SubjectId" Type="Int32" Nullable="false" />
-          <Property Name="ScheduleDate" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="Hours" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
+          <Property Name="Hours" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="isDeleted" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />

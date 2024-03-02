@@ -39,7 +39,14 @@ namespace SchoolManagement.Controllers
         // GET: Lectures/Create
         public ActionResult Create()
         {
-            ViewBag.BatchId = new SelectList(db.Batches, "Id", "Div");
+            var batches = db.Batches.ToList();
+            var classDivList = batches.Select(b => new SelectListItem
+            {
+                Value = b.Id.ToString(),
+                Text = $"{b.Class} - {b.Div}"
+            }).ToList();
+
+            ViewBag.BatchId = new SelectList(classDivList, "Value", "Text");
             ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name");
             ViewBag.TeacherId = new SelectList(db.Teachers, "Id", "Name");
             return View();
@@ -50,18 +57,27 @@ namespace SchoolManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TeacherId,SubjectId,ScheduleDate,StartTime,EndTime,Hours,isDeleted,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,BatchId")] Lecture lecture)
+        public ActionResult Create([Bind(Include = "TeacherId,SubjectId,ScheduleDate,StartTime,Hours,BatchId")] Lecture lecture)
         {
+
             if (ModelState.IsValid)
             {
+
+                lecture.isDeleted = false;
+                lecture.CreatedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                lecture.CreatedDate = DateTime.Now;
+                lecture.ModifiedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                lecture.ModifiedDate = DateTime.Now;
+                lecture.EndTime = lecture.StartTime.Add(TimeSpan.FromHours((double)lecture.Hours)); 
+
                 db.Lectures.Add(lecture);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BatchId = new SelectList(db.Batches, "Id", "Div", lecture.BatchId);
-            ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name", lecture.SubjectId);
-            ViewBag.TeacherId = new SelectList(db.Teachers, "Id", "Name", lecture.TeacherId);
+            //ViewBag.BatchId = new SelectList(db.Batches, "Id", "Div", lecture.BatchId);
+            //ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name", lecture.SubjectId);
+            //ViewBag.TeacherId = new SelectList(db.Teachers, "Id", "Name", lecture.TeacherId);
             return View(lecture);
         }
 
@@ -77,7 +93,15 @@ namespace SchoolManagement.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BatchId = new SelectList(db.Batches, "Id", "Div", lecture.BatchId);
+
+            var batches = db.Batches.ToList();
+            var classDivList = batches.Select(b => new SelectListItem
+            {
+                Value = b.Id.ToString(),
+                Text = $"{b.Class} - {b.Div}"
+            }).ToList();
+
+            ViewBag.BatchId = new SelectList(classDivList, "Value", "Text");
             ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name", lecture.SubjectId);
             ViewBag.TeacherId = new SelectList(db.Teachers, "Id", "Name", lecture.TeacherId);
             return View(lecture);
@@ -88,14 +112,31 @@ namespace SchoolManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TeacherId,SubjectId,ScheduleDate,StartTime,EndTime,Hours,isDeleted,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,BatchId")] Lecture lecture)
+        public ActionResult Edit([Bind(Include = "Id,TeacherId,SubjectId,ScheduleDate,StartTime,EndTime,Hours,BatchId")] Lecture lecture)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(lecture).State = EntityState.Modified;
+                lecture.ModifiedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                lecture.ModifiedDate = DateTime.Now;
+
+
+                db.Lectures.Attach(lecture);
+                db.Entry(lecture).Property(x => x.TeacherId).IsModified = true;
+                db.Entry(lecture).Property(x => x.SubjectId).IsModified = true;
+                db.Entry(lecture).Property(x => x.ScheduleDate).IsModified = true;
+                db.Entry(lecture).Property(x => x.StartTime).IsModified = true;
+                db.Entry(lecture).Property(x => x.EndTime).IsModified = true;
+                db.Entry(lecture).Property(x => x.Hours).IsModified = true;
+                db.Entry(lecture).Property(x => x.BatchId).IsModified = true;
+                db.Entry(lecture).Property(x => x.ModifiedBy).IsModified = true;
+                db.Entry(lecture).Property(x => x.ModifiedDate).IsModified = true;
+
+                // Save changes to the database
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+            
             ViewBag.BatchId = new SelectList(db.Batches, "Id", "Div", lecture.BatchId);
             ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name", lecture.SubjectId);
             ViewBag.TeacherId = new SelectList(db.Teachers, "Id", "Name", lecture.TeacherId);

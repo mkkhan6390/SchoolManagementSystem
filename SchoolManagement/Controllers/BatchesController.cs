@@ -48,10 +48,16 @@ namespace SchoolManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ClassTeacherId,Class,Div,isDeleted,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate")] Batch batch)
+        public ActionResult Create([Bind(Include = "ClassTeacherId,Class,Div")] Batch batch)
         {
             if (ModelState.IsValid)
             {
+                batch.isDeleted = false;
+                batch.CreatedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                batch.CreatedDate = DateTime.Now;
+                batch.ModifiedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                batch.ModifiedDate = DateTime.Now;
+
                 db.Batches.Add(batch);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,11 +88,17 @@ namespace SchoolManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ClassTeacherId,Class,Div,isDeleted,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate")] Batch batch)
+        public ActionResult Edit([Bind(Include = "ClassTeacherId,Class,Div")] Batch batch)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(batch).State = EntityState.Modified;
+                batch.isDeleted = false;
+                batch.CreatedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                batch.CreatedDate = DateTime.Now;
+                batch.ModifiedBy = "1b87d234-e582-431a-9860-8822465102c9";
+                batch.ModifiedDate = DateTime.Now;
+
+                db.Batches.Add(batch);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

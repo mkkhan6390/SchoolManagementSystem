@@ -4,95 +4,13 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
-
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Lecture</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ScheduleDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ScheduleDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Hours)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Hours)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.isDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isDeleted)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ModifiedBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ModifiedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Batch.Div)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Batch.Div)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Subject.Name)
+            Subject
         </dt>
 
         <dd>
@@ -100,13 +18,94 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Teacher.Name)
+            Teacher
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Teacher.Name)
         </dd>
 
+
+        <dt>
+            Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScheduleDate)
+        </dd>
+
+        <dt>
+            Start Time
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            End Time
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            Duration
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hours)
+        </dd>
+
+
+        <dt>
+            Created By
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            Created Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            Last Modified By
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedBy)
+        </dd>
+
+        <dt>
+            Last Modified Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+
+        <dt>
+            Class
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Batch.Class)
+        </dd>
+
+        <dt>
+            Div
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Batch.Div)
+        </dd>
     </dl>
 
     @using (Html.BeginForm()) {

@@ -17,10 +17,10 @@ namespace SchoolManagement.Data
         public int Id { get; set; }
         public int TeacherId { get; set; }
         public int SubjectId { get; set; }
-        public int ScheduleDate { get; set; }
+        public System.DateTime ScheduleDate { get; set; }
         public System.TimeSpan StartTime { get; set; }
         public System.TimeSpan EndTime { get; set; }
-        public decimal Hours { get; set; }
+        public Nullable<decimal> Hours { get; set; }
         public bool isDeleted { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
