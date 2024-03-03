@@ -1,0 +1,155 @@
+﻿@model IEnumerable<SchoolManagement.Data.Lecture>
+
+@{
+    ViewBag.Title = "Lectures";
+}
+
+@section scripts{
+    <script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js"></script>
+    <script> 
+        $(document).ready(function () { 
+            var table = $('#LecturesPerTeacherTable').DataTable({
+                "lengthChange": false, 
+                "columnDefs": [
+                    { "orderable": false, "targets": "_all" } 
+                ]
+            });
+            $(".dt-search").hide();
+
+            $('#applyFilter').on('click', function () {
+                applyFilter();
+                $.fn.dataTable.ext.search.pop();
+            });
+
+
+            $('#resetFilter').on('click', function () {
+
+                $('#startDate').val('');
+                $('#endDate').val('');
+
+                $.fn.dataTable.ext.search.pop();
+                table.draw();
+            });
+
+            function parseDate(dateString) {
+                var parts = dateString.split("-");
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            }
+
+            function applyFilter() {
+                var startDate = $('#startDate').val();
+                var endDate = $('#endDate').val();
+
+
+                $.fn.dataTable.ext.search.push(
+                    function (settings, data, dataIndex) {
+                        var LectureDate = new Date(parseDate(data[0]));
+                        LectureDate.setUTCHours(0);
+                        LectureDate.setUTCMinutes(0);
+                        LectureDate.setUTCSeconds(0);
+                        LectureDate.setUTCMilliseconds(0);
+
+                        var filterStartDate = new Date(startDate);
+                        filterStartDate.setUTCHours(0);
+                        filterStartDate.setUTCMinutes(0);
+                        filterStartDate.setUTCSeconds(0);
+                        filterStartDate.setUTCMilliseconds(0);
+                       
+                        var filterEndDate = new Date(endDate);
+                        filterEndDate.setUTCHours(0);
+                        filterEndDate.setUTCMinutes(0);
+                        filterEndDate.setUTCSeconds(0);
+                        filterEndDate.setUTCMilliseconds(0); 
+
+                        if (startDate && !endDate) {
+                            return LectureDate.getDate() === filterStartDate.getDate()
+                        } else if ((isNaN(filterStartDate) && isNaN(filterEndDate)) ||
+                            (isNaN(filterStartDate) && LectureDate <= filterEndDate) ||
+                            (filterStartDate <= LectureDate && isNaN(filterEndDate)) ||
+                            (filterStartDate <= LectureDate && LectureDate <= filterEndDate)) {
+                            return true;
+                        }
+                        return false;
+                    }
+                );
+
+                // Redraw the table
+                table.draw();
+            }
+        });
+    </script>
+}
+<div>
+    <label for="startDate">Date Range:</label>
+    <input type="date" id="startDate">
+    <input type="date" id="endDate">
+    <button id="applyFilter">Apply Filter</button>
+    <button id="resetFilter">Reset Filter</button>
+
+    <table id="LecturesPerTeacherTable" class="display">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Subject
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Batch.Class)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Batch.Div)
+                </th>
+                <th>
+                    Start Time
+                </th>
+                <th>
+                    End Time
+                </th>
+                <th>
+                    Duration
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ScheduleDate).ToString().Substring(0, 10)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Batch.Class)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Batch.Div)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hours)
+                    </td>
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    <button class="btn btn-sm btn-outline-secondary">
+        @Html.ActionLink("Back", "Index", null, new {style = "text-decoration:none; color: black;" })
+    </button>
+</div>
+
+
+

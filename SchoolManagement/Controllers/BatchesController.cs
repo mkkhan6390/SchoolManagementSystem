@@ -17,7 +17,7 @@ namespace SchoolManagement.Controllers
         // GET: Batches
         public ActionResult Index()
         {
-            var batches = db.Batches.Include(b => b.Teacher);
+            var batches = db.Batches.Include(b => b.Teacher).Where(l=>l.isDeleted==false);
             return View(batches.ToList());
         }
 
@@ -127,8 +127,12 @@ namespace SchoolManagement.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Batch batch = db.Batches.Find(id);
-            db.Batches.Remove(batch);
+            batch.isDeleted = true;
+
+            db.Batches.Attach(batch);
+            db.Entry(batch).Property(x => x.isDeleted).IsModified = true;
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

@@ -3,12 +3,20 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h4>Teacher</h4>
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <h4>Teacher</h4>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-sm btn-primary">
+                @Html.ActionLink("Add New Teacher", "Create",null, new { style = "text-decoration:none; color: black;" })
+            </button>
+        </div>
+    </div>
+</div>
 <hr />
-<button class="btn btn-light">
-    @Html.ActionLink("Add New Teacher", "Create")
-</button>
+
 <table class="table">
     <tr>
         <th>
@@ -25,21 +33,22 @@
 
     @foreach (var item in Model)
     {
-       
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AddedBy)
+                @Html.DisplayFor(modelItem => item.AspNetUser.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AddedDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <button class="btn btn-sm btn-outline-info">@Html.ActionLink("Edit", "Edit", new { id = item.Id })</button> |
+                <button class="btn btn-sm btn-outline-info">@Html.ActionLink("Details", "Details", new { id = item.Id })</button> |
+                <button class="btn btn-sm btn-outline-info">@Html.ActionLink("Delete", "Delete", new { id = item.Id })</button> |
+                <button class="btn btn-sm btn-outline-info">@Html.ActionLink("Lectures", "Lectures", new { id = item.Id })</button>
             </td>
         </tr>
     }

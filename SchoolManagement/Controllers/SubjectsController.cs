@@ -17,7 +17,24 @@ namespace SchoolManagement.Controllers
         // GET: Subjects
         public ActionResult Index()
         {
+            //var subjects = db.Subjects.Include(t => t.AspNetUser).Where(t => t.isDeleted == false).ToList();
+            var subjects = db.Subjects.Where(t => t.isDeleted == false).ToList();
             return View(db.Subjects.ToList());
+        }
+
+        // GET : Teachers/Lectures/:SubjectId
+        public ActionResult Lectures(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var Lectures = db.Lectures.Where(lecture => lecture.SubjectId == id).ToList();
+            if (Lectures == null)
+            {
+                return HttpNotFound();
+            }
+            return View(Lectures);
         }
 
         // GET: Subjects/Details/5
@@ -125,8 +142,12 @@ namespace SchoolManagement.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Subject subject = db.Subjects.Find(id);
-            db.Subjects.Remove(subject);
+            subject.isDeleted = true;
+            
+            db.Subjects.Attach(subject);
+            db.Entry(subject).Property(x => x.isDeleted).IsModified = true;
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

@@ -18,8 +18,25 @@ namespace SchoolManagement.Controllers
         // GET: Teachers
         public ActionResult Index()
         {
-            return View(db.Teachers.ToList());
+            var teachers = db.Teachers.Include(t => t.AspNetUser).Where(t => t.isDeleted == false).ToList();
+            return View(teachers);
         }
+
+        // GET : Teachers/Lectures/:TeacherId
+        public ActionResult Lectures(int? id)
+        {
+            if (id == null)
+            { 
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var Lectures = db.Lectures.Where(lecture => lecture.TeacherId == id).ToList();
+            if (Lectures == null)
+            {
+                return HttpNotFound();
+            }
+            return View(Lectures);
+        }
+
 
         // GET: Teachers/Details/5
         public ActionResult Details(int? id)
@@ -29,6 +46,9 @@ namespace SchoolManagement.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Teacher teacher = db.Teachers.Find(id);
+            teacher.AddedBy = db.AspNetUsers.Find(teacher.AddedBy).UserName;
+            teacher.ModifiedBy = db.AspNetUsers.Find(teacher.ModifiedBy).UserName;
+
             if (teacher == null)
             {
                 return HttpNotFound();
@@ -118,10 +138,12 @@ namespace SchoolManagement.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Teacher teacher = db.Teachers.Find(id);
+
             if (teacher == null)
             {
                 return HttpNotFound();
             }
+            teacher.AddedBy = db.AspNetUsers.Find(teacher.AddedBy).UserName;
             return View(teacher);
         }
 
@@ -131,8 +153,12 @@ namespace SchoolManagement.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Teacher teacher = db.Teachers.Find(id);
-            db.Teachers.Remove(teacher);
+            teacher.isDeleted = true;
+             
+            db.Teachers.Attach(teacher);
+            db.Entry(teacher).Property(x => x.isDeleted).IsModified = true; 
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

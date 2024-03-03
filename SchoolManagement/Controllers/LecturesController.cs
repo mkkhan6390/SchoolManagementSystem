@@ -17,7 +17,7 @@ namespace SchoolManagement.Controllers
         // GET: Lectures
         public ActionResult Index()
         {
-            var lectures = db.Lectures.Include(l => l.Batch).Include(l => l.Subject).Include(l => l.Teacher);
+            var lectures = db.Lectures.Include(l => l.Batch).Include(l => l.Subject).Include(l => l.Teacher).Where(l=>l.isDeleted==false);
             return View(lectures.ToList());
         }
 
@@ -164,8 +164,11 @@ namespace SchoolManagement.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Lecture lecture = db.Lectures.Find(id);
-            db.Lectures.Remove(lecture);
+            lecture.isDeleted = true;
+            db.Lectures.Attach(lecture);
+            db.Entry(lecture).Property(x => x.isDeleted).IsModified = true;
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

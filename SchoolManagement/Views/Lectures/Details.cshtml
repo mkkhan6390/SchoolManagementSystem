@@ -3,9 +3,7 @@
 @{
     ViewBag.Title = "Details";
 }
-
-<h2>Details</h2>
-
+ 
 <div>
     <h4>Lecture</h4>
     <hr />
@@ -25,7 +23,6 @@
         <dd>
             @Html.DisplayFor(model => model.Teacher.Name)
         </dd>
-
 
         <dt>
             Date
@@ -59,39 +56,6 @@
             @Html.DisplayFor(model => model.Hours)
         </dd>
 
-
-        <dt>
-            Created By
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-
-        <dt>
-            Created Date
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-
-        <dt>
-            Last Modified By
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedBy)
-        </dd>
-
-        <dt>
-            Last Modified Date
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedDate)
-        </dd>
-
         <dt>
             Class
         </dt>
@@ -111,7 +75,8 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div>
+    <button class="btn btn-sm btn-outline-secondary">
+        @Html.ActionLink("Back", "Index", null, new { id = Model.Id, style = "text-decoration:none; color: black;" })
+    </button>
+</div>
